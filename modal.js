@@ -56,17 +56,17 @@ function checkForm() {
 	const regexMail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 	const regexNb = /^[0-9]+$/;
 	if (inputFirstName.value === '' || inputFirstName.value.lenght >= 2 || !regexFirstName.test(inputFirstName.value)) {
-		console.log('Erreur dans le champs prénom');
+		addError('.first');
 	} else if (
 		inputLastName.value === '' ||
 		inputLastName.value.lenght >= 2 ||
 		!regexLastName.test(inputLastName.value)
 	) {
-		console.log('Erreur dans le champs nom');
+		addError('.last');
 	} else if (inputEmail.value === '' || !regexMail.test(inputEmail.value)) {
-		console.log("Erreur dans l'email");
+		addError('.email');
 	} else if (inputQuantity.value === '' || !regexNb.test(inputQuantity.value)) {
-		console.log('Erreur dans la quantité');
+		addError('.quantity');
 	} else if (
 		!inputLocation1.checked &&
 		!inputLocation2.checked &&
@@ -75,10 +75,23 @@ function checkForm() {
 		!inputLocation5.checked &&
 		!inputLocation6.checked
 	) {
-		console.log('Au moins une ville doit être selectionnée');
+		addError('.location');
 	} else if (!inputCheckbox.checked) {
-		console.log('Vous devez coché les conditions générales');
+		addError('.checkbox1');
 	} else {
-		console.log('tout est bon');
+		delError();
+		closeModal();
+	}
+
+	function addError(input) {
+		document.querySelector(input).setAttribute('data-error-visible', 'true');
+	}
+	function delError() {
+		document.querySelector('.last').setAttribute('data-error-visible', 'false');
+		document.querySelector('.first').setAttribute('data-error-visible', 'false');
+		document.querySelector('.email').setAttribute('data-error-visible', 'false');
+		document.querySelector('.quantity').setAttribute('data-error-visible', 'false');
+		document.querySelector('.location').setAttribute('data-error-visible', 'false');
+		document.querySelector('.checkbox1').setAttribute('data-error-visible', 'false');
 	}
 }

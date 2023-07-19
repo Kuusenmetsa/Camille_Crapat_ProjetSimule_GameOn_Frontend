@@ -46,7 +46,7 @@ confirmCloseBtn.addEventListener('click', (e) => closeModal(modalConfirm));
 // launch modal form
 function launchModal(elements) {
 	if (elements && elements.length > 1) {
-		elements.foreach((element) => (element.style.display = 'block'));
+		elements.forEach((element) => (element.style.display = 'block'));
 	} else {
 		elements.style.display = 'block';
 	}
@@ -55,7 +55,7 @@ function launchModal(elements) {
 //close modal form
 function closeModal(elements) {
 	if (elements && elements.length > 1) {
-		elements.foreach((element) => (element.style.display = 'none'));
+		elements.forEach((element) => (element.style.display = 'none'));
 	} else {
 		elements.style.display = 'none';
 	}

@@ -1,97 +1,122 @@
-function editNav() {
-	var x = document.getElementById('myTopnav');
-	if (x.className === 'topnav') {
-		x.className += ' responsive';
-	} else {
-		x.className = 'topnav';
-	}
-}
-
-// DOM Elements
-const modalbg = document.querySelector('.bground');
-const modalBtn = document.querySelectorAll('.modal-btn');
-const modalCloseBtn = document.getElementById('close');
+// Variables
+// DOM
+const modalForm = document.getElementById('modal-form'); // form
+const modalConfirm = document.getElementById('modal-confirm'); // confirm
+const modalOpenBtn = document.querySelectorAll('.modal-btn');
+const modalCloseBtn = document.querySelectorAll('.close');
+const modals = document.querySelectorAll('.bground');
+const confirmCloseBtn = document.getElementById('btn-close');
 const formData = document.querySelectorAll('.formData');
-const inputFirstName = document.getElementById('first');
-const inputLastName = document.getElementById('last');
-const inputEmail = document.getElementById('email');
-const inputQuantity = document.getElementById('quantity');
-const inputLocation1 = document.getElementById('location1');
-const inputLocation2 = document.getElementById('location2');
-const inputLocation3 = document.getElementById('location3');
-const inputLocation4 = document.getElementById('location4');
-const inputLocation5 = document.getElementById('location5');
-const inputLocation6 = document.getElementById('location6');
-const inputCheckbox = document.getElementById('checkbox1');
-const btnForm = document.querySelectorAll('.btn-submit');
+const form = document.querySelectorAll('form');
 
-// launch modal event
-modalBtn.forEach((btn) => btn.addEventListener('click', launchModal));
+// Regex
+const regexName = /^[-a-zA-ZàâäéèêëïîôöùûüçÂ]{2,}$/;
+const regexMail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+const regexDate = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/;
+const regexNb = /^[0-9]+$/;
 
-// launch modal form
-function launchModal() {
-	modalbg.style.display = 'block';
-}
+//Event
+// launch open modal event
+modalOpenBtn.forEach((btn) => btn.addEventListener('click', () => launchModal(modalForm)));
 
-//launch close button modal event
-modalCloseBtn.addEventListener('click', closeModal);
+// launch close modal event
+modalCloseBtn.forEach((btn) => btn.addEventListener('click', () => closeModal(modals)));
 
-//launch close modal
-function closeModal() {
-	modalbg.style.display = 'none';
-}
-
-//launch form event
-btnForm.forEach((btn) =>
-	btn.addEventListener('click', function (e) {
+// launch submit form eventS
+form.forEach((submit) =>
+	submit.addEventListener('submit', function (e) {
 		e.preventDefault();
-		checkForm();
+		checkInputs('submit');
 	})
 );
 
-//launch check form
-function checkForm() {
-	const regexFirstName = /^[-a-zA-ZàâäéèêëïîôöùûüçÂ]{2,}$/;
-	const regexLastName = /^[-a-zA-ZàâäéèêëïîôöùûüçÂ]{2,}$/;
-	const regexMail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
-	const regexNb = /^[0-9]+$/;
-	if (inputFirstName.value === '' || inputFirstName.value.lenght >= 2 || !regexFirstName.test(inputFirstName.value)) {
-		addError('.first');
-	} else if (
-		inputLastName.value === '' ||
-		inputLastName.value.lenght >= 2 ||
-		!regexLastName.test(inputLastName.value)
-	) {
-		addError('.last');
-	} else if (inputEmail.value === '' || !regexMail.test(inputEmail.value)) {
-		addError('.email');
-	} else if (inputQuantity.value === '' || !regexNb.test(inputQuantity.value)) {
-		addError('.quantity');
-	} else if (
-		!inputLocation1.checked &&
-		!inputLocation2.checked &&
-		!inputLocation3.checked &&
-		!inputLocation4.checked &&
-		!inputLocation5.checked &&
-		!inputLocation6.checked
-	) {
-		addError('.location');
-	} else if (!inputCheckbox.checked) {
-		addError('.checkbox1');
+// launch change input event
+formData.forEach((input) =>
+	input.addEventListener('change', (e) => {
+		e.preventDefault();
+		checkInputs();
+	})
+);
+
+// launch close confirm modal event
+confirmCloseBtn.addEventListener('click', (e) => closeModal(modalConfirm));
+
+// function
+
+// launch modal form
+function launchModal(elements) {
+	if (elements && elements.length > 1) {
+		elements.foreach((element) => (element.style.display = 'block'));
 	} else {
-		delError();
-		closeModal();
+		elements.style.display = 'block';
+	}
+}
+
+//close modal form
+function closeModal(elements) {
+	if (elements && elements.length > 1) {
+		elements.foreach((element) => (element.style.display = 'none'));
+	} else {
+		elements.style.display = 'none';
+	}
+}
+
+function checkInputs(type = null) {
+	const firstName = checkInput('input', 'first', '.first', regexName);
+	const lastName = checkInput('input', 'last', '.last', regexName);
+	const email = checkInput('input', 'email', '.email', regexMail);
+	const birthdate = checkInput('input', 'birthdate', '.birthdate', regexDate);
+	const quantity = checkInput('input', 'quantity', '.quantity', regexNb);
+	const location = checkInput('multipleChecked');
+	const terms = checkInput('simpleChecked');
+
+	if (type === 'submit' && firstName && lastName && email && birthdate && quantity && location && terms) {
+		closeModal(modalForm);
+		launchModal(modalConfirm);
+	}
+}
+
+function checkInput(type, id = '', className = '', regex = '') {
+	if (type === 'input') {
+		if (document.getElementById(id).value === '' || !regex.test(document.getElementById(id).value)) {
+			addError(className);
+			return false;
+		} else {
+			delError(className);
+			return true;
+		}
+	} else if (type === 'simpleChecked') {
+		if (!document.getElementById('checkbox1').checked) {
+			addError('.checkbox1');
+			return false;
+		} else {
+			delError('.checkbox1');
+			return true;
+		}
+	} else if (type === 'multipleChecked') {
+		if (
+			!document.getElementById('location1').checked &&
+			!document.getElementById('location2').checked &&
+			!document.getElementById('location3').checked &&
+			!document.getElementById('location4').checked &&
+			!document.getElementById('location5').checked &&
+			!document.getElementById('location6').checked
+		) {
+			addError('.location');
+			return false;
+		} else {
+			delError('.location');
+			return true;
+		}
+	} else {
+		console.log('Une erreur dans le typage de la fonction checkInput est survenu');
+		return false;
 	}
 
-	function addError(input) {
-		document.querySelector(input).setAttribute('data-error-visible', 'true');
+	function addError(className) {
+		document.querySelector(className).setAttribute('data-error-visible', 'true');
 	}
-	function delError() {
-		document.querySelector('.last').setAttribute('data-error-visible', 'false');
-		document.querySelector('.first').setAttribute('data-error-visible', 'false');
-		document.querySelector('.email').setAttribute('data-error-visible', 'false');
-		document.querySelector('.quantity').setAttribute('data-error-visible', 'false');
-		document.querySelector('.location').setAttribute('data-error-visible', 'false');
-		document.querySelector('.checkbox1').setAttribute('data-error-visible', 'false');
+	function delError(className) {
+		document.querySelector(className).setAttribute('data-error-visible', 'false');
 	}
 }

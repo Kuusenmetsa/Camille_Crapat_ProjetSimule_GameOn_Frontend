@@ -52,15 +52,14 @@
         </button>
       </div>
 
-      <div class="bground">
+      <div class="bground" id="modal-form">
         <div class="content">
-          <span class="close" id="close"></span>
+          <span class="close"></span>
           <div class="modal-body">
             <form
               name="reserve"
               action="index.html"
               method="get"
-              onsubmit="return validate();"
             >
               <div
                 class="formData first"
@@ -209,6 +208,22 @@
                 value="C'est parti"
               />
             </form>
+          </div>
+        </div>
+      </div><div class="bground" id="modal-confirm">
+        <div class="content">
+          <span class="close"></span>
+          <div class="modal-body">
+            <p class="confirm-message">Merci pour votre inscription</p>
+            
+            <input
+            class="btn-submit"
+            id="btn-close"
+            type="submit"
+            class="button"
+            value="Fermer"
+          />
+            </div>
           </div>
         </div>
       </div>

@@ -1,11 +1,10 @@
 // Variables
 // DOM
 const modalForm = document.getElementById('modal-form'); // form
-const modalConfirm = document.getElementById('modal-confirm'); // confirm
 const modalOpenBtn = document.querySelectorAll('.modal-btn');
+const modalBody = document.querySelectorAll('.modal-body');
 const modalCloseBtn = document.querySelectorAll('.close');
 const modals = document.querySelectorAll('.bground');
-const confirmCloseBtn = document.getElementById('btn-close');
 const formData = document.querySelectorAll('.formData');
 const form = document.querySelectorAll('form');
 
@@ -38,9 +37,6 @@ formData.forEach((input) =>
 	})
 );
 
-// launch close confirm modal event
-confirmCloseBtn.addEventListener('click', (e) => closeModal(modalConfirm));
-
 // function
 
 // launch modal form
@@ -54,11 +50,7 @@ function launchModal(elements) {
 
 //close modal form
 function closeModal(elements) {
-	if (elements && elements.length > 1) {
-		elements.forEach((element) => (element.style.display = 'none'));
-	} else {
-		elements.style.display = 'none';
-	}
+	elements.forEach((element) => (element.style.display = 'none'));
 }
 
 function checkInputs(type = null) {
@@ -71,8 +63,23 @@ function checkInputs(type = null) {
 	const terms = checkInput('simpleChecked');
 
 	if (type === 'submit' && firstName && lastName && email && birthdate && quantity && location && terms) {
-		closeModal(modalForm);
-		launchModal(modalConfirm);
+		form.forEach((f) => {
+			f.reset();
+			f.remove();
+		});
+		modalBody.forEach(
+			(modal) =>
+				(modal.innerHTML = `<p class="confirm-message">Merci pour votre inscription</p> <input class="btn-submit"
+		type="submit"
+		class="button"
+		id="btn-close"
+		value="Fermer"/>`)
+		);
+
+		document.getElementById('btn-close').addEventListener('click', (e) => {
+			e.preventDefault();
+			closeModal(modals);
+		});
 	}
 }
 

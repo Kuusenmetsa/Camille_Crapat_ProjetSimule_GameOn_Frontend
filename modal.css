@@ -14,7 +14,6 @@ body {
 	margin: 0;
 	display: flex;
 	flex-direction: column;
-	background-image: url('background.png');
 	font-family: var(--font-default);
 	font-size: 18px;
 	max-width: 1300px;
@@ -70,12 +69,20 @@ img {
 .topnav .icon {
 	display: none;
 }
+.confirm-message {
+	font-size: 2.25rem;
+	text-align: center;
+	font-weight: normal;
+	max-width: 295px;
+	margin: 350px 0;
+}
 
 @media screen and (max-width: 768px) {
 	.header-logo img {
 		height: 19px;
 	}
 	.topnav a {
+		padding: 8px;
 		display: none;
 	}
 	.topnav a.icon {
@@ -105,9 +112,7 @@ img {
 		display: none;
 	}
 	.topnav a.icon {
-		float: right;
 		display: block;
-		margin-top: -15px;
 	}
 }
 
@@ -194,6 +199,10 @@ main {
 .modal-body {
 	padding: 15px 8%;
 	margin: 15px auto;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	min-height: 850px;
 }
 
 label {
@@ -487,6 +496,14 @@ footer {
 	margin: 0 20px;
 }
 @media screen and (max-width: 800px) {
+	.topnav {
+		margin: 13px 20px;
+		padding: 0 2vw;
+	}
+	.header-logo {
+		display: flex;
+		align-items: center;
+	}
 	.hero-section {
 		display: block;
 		box-shadow: unset;
@@ -494,7 +511,8 @@ footer {
 	.hero-content {
 		background: #fff;
 		color: #000;
-		padding: 20px;
+		padding: 0;
+		min-width: 0;
 	}
 	.hero-content::after {
 		content: unset;
@@ -503,12 +521,13 @@ footer {
 		display: none;
 	}
 	.hero-headline {
-		font-size: 4.5rem;
+		font-size: 2.3rem;
 		white-space: normal;
 	}
 	.hero-text {
 		width: unset;
-		font-size: 1.5rem;
+		font-size: 0.81rem;
+		margin-top: 25px;
 	}
 	.hero-img img {
 		border-radius: 10px;
@@ -517,11 +536,16 @@ footer {
 	.hero-section > .btn-signup {
 		display: block;
 		margin: 32px auto 10px;
-		padding: 12px 35px;
+		padding: 7px 30px;
+		font-size: 0.87rem;
 	}
 	.copyrights {
-		margin-top: 50px;
 		text-align: center;
+		font-size: 0.62rem;
+		margin: 0 0 30px 0;
+	}
+	.content {
+		height: 100vh;
 	}
 }
 

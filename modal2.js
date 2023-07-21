@@ -1,60 +1,33 @@
-// Variables
-// DOM
-const modalForm = document.getElementById('modal-form'); // form
-const modalOpenBtn = document.querySelectorAll('.modal-btn');
-const modalBody = document.querySelectorAll('.modal-body');
-const modalCloseBtn = document.querySelectorAll('.close');
-const modals = document.querySelectorAll('.bground');
+const modalbg = document.querySelector('.bground');
+const modalBtn = document.querySelectorAll('.modal-btn');
+const modalCloseBtn = document.getElementById('close');
 const formData = document.querySelectorAll('.formData');
-const form = document.querySelectorAll('form');
+const form = document.querySelector('form');
 
-// Regex
 const regexName = /^[-a-zA-ZàâäéèêëïîôöùûüçÂ]{2,}$/;
 const regexMail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 const regexDate = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/;
 const regexNb = /^[0-9]+$/;
 
-//Event
-// launch open modal event
-modalOpenBtn.forEach((btn) => btn.addEventListener('click', () => launchModal(modalForm)));
-
-// launch close modal event
-modalCloseBtn.forEach((btn) => btn.addEventListener('click', () => closeModal(modals)));
-
-// launch submit form eventS
-form.forEach((submit) =>
-	submit.addEventListener('submit', function (e) {
-		e.preventDefault();
-		checkInputs('submit');
-	})
-);
-
-// launch change input event
-formData.forEach((input) =>
-	input.addEventListener('change', (e) => {
-		e.preventDefault();
-		checkInputs();
-	})
-);
-
-// function
+// launch modal event
+modalBtn.forEach((btn) => btn.addEventListener('click', launchModal));
 
 // launch modal form
-function launchModal(elements) {
-	if (elements && elements.length > 1) {
-		elements.forEach((element) => (element.style.display = 'block'));
-	} else {
-		elements.style.display = 'block';
-	}
+function launchModal() {
+	modalbg.style.display = 'block';
 }
 
-//close modal form
-function closeModal(elements) {
-	elements.forEach((element) => (element.style.display = 'none'));
+//launch close button modal event
+modalCloseBtn.addEventListener('click', closeModal);
+
+//launch close modal
+function closeModal() {
+	modalbg.style.display = 'none';
 }
 
-// checked form
-function checkInputs(type = null) {
+form.addEventListener('submit', (e) => {
+	e.preventDefault();
+
 	const firstName = checkInput('input', 'first', '.first', regexName);
 	const lastName = checkInput('input', 'last', '.last', regexName);
 	const email = checkInput('input', 'email', '.email', regexMail);
@@ -63,28 +36,24 @@ function checkInputs(type = null) {
 	const location = checkInput('multipleChecked');
 	const terms = checkInput('simpleChecked');
 
-	if (type === 'submit' && firstName && lastName && email && birthdate && quantity && location && terms) {
-		form.forEach((f) => {
-			f.reset();
-			f.remove();
-		});
-		modalBody.forEach(
-			(modal) =>
-				(modal.innerHTML = `<p class="confirm-message">Merci pour votre inscription</p> <input class="btn-submit"
-		type="submit"
-		class="button"
-		id="btn-close"
-		value="Fermer"/>`)
+	if (firstName && lastName && email && birthdate && quantity && location && terms) {
+		form.style.display = 'none';
+	} else {
+		formData.forEach((input) =>
+			input.addEventListener('change', (e) => {
+				e.preventDefault();
+				checkInput('input', 'first', '.first', regexName);
+				checkInput('input', 'last', '.last', regexName);
+				checkInput('input', 'email', '.email', regexMail);
+				checkInput('input', 'birthdate', '.birthdate', regexDate);
+				checkInput('input', 'quantity', '.quantity', regexNb);
+				checkInput('multipleChecked');
+				checkInput('simpleChecked');
+			})
 		);
-
-		document.getElementById('btn-close').addEventListener('click', (e) => {
-			e.preventDefault();
-			closeModal(modals);
-		});
 	}
-}
+});
 
-//checked input
 function checkInput(type, id = '', className = '', regex = '') {
 	if (type === 'input') {
 		if (document.getElementById(id).value === '' || !regex.test(document.getElementById(id).value)) {
@@ -127,15 +96,5 @@ function checkInput(type, id = '', className = '', regex = '') {
 	}
 	function delError(className) {
 		document.querySelector(className).setAttribute('data-error-visible', 'false');
-	}
-}
-
-//open or close nav
-function editNav() {
-	var x = document.getElementById('myTopnav');
-	if (x.className === 'topnav') {
-		x.className += ' responsive';
-	} else {
-		x.className = 'topnav';
 	}
 }

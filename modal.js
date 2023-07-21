@@ -66,20 +66,30 @@ function checkInputs(type = null) {
 	if (type === 'submit' && firstName && lastName && email && birthdate && quantity && location && terms) {
 		form.forEach((f) => {
 			f.reset();
-			f.remove();
+			f.style.display = 'none';
+			const div = document.createElement('div');
+			div.setAttribute('id', 'confirm');
+			const p = document.createElement('p');
+			p.className = 'confirm-message';
+			const text = document.createTextNode('Merci pour votre inscription');
+			const input = document.createElement('input');
+			input.setAttribute('class', 'btn-submit button');
+			input.setAttribute('type', 'submit');
+			input.setAttribute('id', 'btn-close');
+			input.setAttribute('value', 'Fermer');
+			p.appendChild(text);
+			div.appendChild(p);
+			p.after(input);
+			f.after(div);
 		});
-		modalBody.forEach(
-			(modal) =>
-				(modal.innerHTML = `<p class="confirm-message">Merci pour votre inscription</p> <input class="btn-submit"
-		type="submit"
-		class="button"
-		id="btn-close"
-		value="Fermer"/>`)
-		);
 
 		document.getElementById('btn-close').addEventListener('click', (e) => {
 			e.preventDefault();
 			closeModal(modals);
+			document.getElementById('confirm').remove();
+			form.forEach((f) => {
+				f.style.display = 'block';
+			});
 		});
 	}
 }

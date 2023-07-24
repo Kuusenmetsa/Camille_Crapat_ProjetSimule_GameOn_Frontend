@@ -74,7 +74,7 @@ img {
 	text-align: center;
 	font-weight: normal;
 	max-width: 295px;
-	margin: 350px 0;
+	margin: 335px 0;
 }
 
 @media screen and (max-width: 768px) {
@@ -86,22 +86,26 @@ img {
 		display: none;
 	}
 	.topnav a.icon {
-		float: right;
 		display: block;
 	}
 }
 
 @media screen and (max-width: 768px) {
-	.topnav.responsive {
-		position: relative;
-	}
-	.topnav.responsive .icon {
+	.topnav.responsive .nav {
+		z-index: 100;
 		position: absolute;
+		top: 75px;
 		right: 0;
-		top: 0;
+		height: auto;
+		background-color: #fff;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		align-items: center;
+		width: 100%;
+		transition: all 0.15s ease-in-out;
 	}
 	.topnav.responsive a {
-		float: none;
 		display: block;
 		text-align: left;
 	}
@@ -190,7 +194,6 @@ main {
 	animation-duration: var(--modal-duration);
 	background: #232323;
 	border-radius: 10px;
-	overflow: hidden;
 	position: relative;
 	color: #fff;
 	padding-top: 10px;
@@ -202,7 +205,6 @@ main {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	min-height: 850px;
 }
 
 label {
@@ -422,7 +424,6 @@ input[data-error]::after {
 	font-size: 16px;
 }
 .hero-section {
-	min-height: 93vh;
 	border-radius: 10px;
 	display: grid;
 	grid-template-columns: repeat(12, 1fr);
@@ -539,13 +540,26 @@ footer {
 		padding: 7px 30px;
 		font-size: 0.87rem;
 	}
+	.modal-body {
+		padding: 15px 8%;
+		margin: 0;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+	.confirm-message {
+		max-width: 295px;
+		margin: 225px 0;
+	}
 	.copyrights {
 		text-align: center;
 		font-size: 0.62rem;
 		margin: 0 0 30px 0;
 	}
 	.content {
-		height: 100vh;
+		min-height: 100vh;
+		height: auto;
+		margin: 0;
 	}
 }
 
